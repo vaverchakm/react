@@ -4,6 +4,7 @@ import { Loading } from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
 
 function Home(props) {
+    console.log(props);
     return (
         <div className="container">
             <div className="row">
@@ -22,7 +23,11 @@ function Home(props) {
                         />
                 </div>
                 <div className="col-md m-1">
-                    <RenderCard item={props.partner} />
+                    <RenderCard 
+                        item={props.partner} 
+                        isLoading={props.partnersLoading}
+                        errMess={props.partnersErrMess}
+                    />
                 </div>
             </div>
         </div>
@@ -40,7 +45,7 @@ function RenderCard({item, isLoading, errMess}) {
 
     return (
         <Card>
-            <CardImg src={baseUrl + item.image} alt={item.name} />
+            <CardImg src={ baseUrl + item.image} alt={item.name} />
             <CardBody>
                 <CardTitle>{item.name}</CardTitle>
                 <CardText>{item.description}</CardText>
