@@ -8,7 +8,7 @@ import About from './AboutComponent';
 import Contact from './ContactComponent';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { postComment, fetchCampsites, fetchComments, fetchPromotions, fetchPartners } from '../redux/ActionCreators';
+import { postComment, fetchCampsites, fetchComments, fetchPromotions, fetchPartners, postFeedback } from '../redux/ActionCreators';
 import { actions } from 'react-redux-form';
 
 const mapStateToProps = state => {
@@ -26,7 +26,8 @@ const mapDispatchToProps = {
     resetFeedbackForm: () => (actions.reset('feedbackForm')),
     fetchComments: () => (fetchComments()),
     fetchPromotions: () => (fetchPromotions()),
-    fetchPartners: () => (fetchPartners())
+    fetchPartners: () => (fetchPartners()),
+    postFeedback: (feedback) => (postFeedback(feedback)),
 };
 
 class Main extends Component {
@@ -49,8 +50,8 @@ class Main extends Component {
                 promotionLoading={this.props.promotions.isLoading}
                 promotionErrMess={this.props.promotions.errMess}
                 partner={this.props.partners.partners.filter(partner => partner.featured)[0]}
-                partnerLoading={this.props.partners.isLoading}
-                partnerErrMess={this.props.partners.errMess}
+                partnersLoading={this.props.partners.isLoading}
+                partnersErrMess={this.props.partners.errMess}
                 />
             );
         };
@@ -77,7 +78,7 @@ class Main extends Component {
                     <Route exact path='/directory' render={() => <Directory campsites={this.props.campsites} />} />
                     <Route path='/directory/:campsiteId' component={CampsiteWithId} />
                     <Route exact path='/aboutus' render={() => <About partners={this.props.partners} />} />
-                    <Route exact path='/contactus' render={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} />} />
+                    <Route exact path='/contactus' render={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} postFeedback={this.props.postFeedback}/>} />
                     <Redirect to='/home' />
                 </Switch>
                 <Footer />

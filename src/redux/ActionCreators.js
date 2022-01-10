@@ -155,7 +155,7 @@ export const addPromotions = promotions => ({
 ////////////////////////////////////////////
 
 export const fetchPartners = () => dispatch => {
-    dispatch(partnersLoading);
+    dispatch(partnersLoading());
     return fetch(baseUrl + 'partners')
         .then(response => {
                 if (response.ok) {
@@ -177,7 +177,7 @@ export const fetchPartners = () => dispatch => {
 };
 
 export const partnersLoading = () => ({
-    type: ActionTypes.PARTNERS_LOADING
+    type: ActionTypes.PARTNERS_LOADING,
 });
 
 export const partnersFailed = errMess => ({
@@ -189,3 +189,30 @@ export const addPartners = partners => ({
     type: ActionTypes.ADD_PARTNERS,
     payload: partners
 });
+
+export const postFeedback = feedback => dispatch => {
+    
+    return fetch(baseUrl + 'feedback', {
+        method: "POST",
+        body: JSON.stringify(feedback),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(response => {
+                if (response.ok) {
+                    return response;
+                } else {
+                    const error = new Error(`Error ${response.status}: ${response.statusText}`);
+                    error.response = response;
+                    throw error;
+                }
+            },
+            error => { throw error; }
+        )
+        .then(alert(`Thank you for your feedback ${JSON.stringify(feedback)}`))
+        .catch(error => {
+            console.log('Your feedback cannot be posted', + error.message);
+            alert('Your feedback cannot be posted\nError: ' + error.message);
+        });
+}

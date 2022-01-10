@@ -97,12 +97,8 @@ function PartnerList(props) {
     }
     if (props.partners.errMess) {
         return (
-            <div className="container">
-                <div className="row">
-                    <div className="col">
-                        <h4>{props.partners.errMess}</h4>
-                    </div>
-                </div>
+            <div className="col">
+                <h4>{props.partners.errMess}</h4>
             </div>
         );
     } 
